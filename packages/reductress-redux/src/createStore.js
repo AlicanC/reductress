@@ -5,14 +5,10 @@ import {
   createObservableProvider,
   type ObservableProviderAddConsumer,
 } from "reductress";
-import {
-  type CreateMutator,
-  type CreateProvider,
-  type Store as ReductressStore,
-} from "reductress-core";
+import { type Store as ReductressStore } from "reductress-core";
 
-export type Reducer<State, Action> = (state: State, action: Action) => State;
-export type Dispatch<Action> = (action: Action) => void;
+import createReduxMutator, { type Reducer, type Dispatch } from "./createReduxMutator";
+
 export type Store<State, Action> = $ReadOnly<{
   getState: () => State,
   dispatch: Dispatch<Action>,
@@ -31,15 +27,13 @@ export default function createStore<State, Action>(
     return enhancer(createStore)(reducer, initialState);
   }
 
-  const createMutator = ({ getState, setState }) => ({
-    mutate: (action) => setState(reducer(getState(), action)),
-  });
+  const provider = createObservableProvider();
 
-  const { getState, addConsumer, mutate } = createReductressStore(
-    createObservableProvider,
-    createMutator,
-    initialState,
-  );
+  const reductressStore = createReductressStore(provider, initialState);
+
+  const { getState, addConsumer } = reductressStore;
+
+  const { mutate } = createReduxMutator(reductressStore, reducer);
 
   return {
     getState,

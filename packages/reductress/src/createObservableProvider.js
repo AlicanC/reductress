@@ -1,9 +1,13 @@
 // @flow
 
-import Observable, { type Observer, type Subscription } from "zen-observable";
+import Observable, {
+  type Observer,
+  type Subscription as ZenObservableSubscription,
+} from "zen-observable";
 import { type Provider } from "reductress-core";
 
 export type Consumer<State> = (state: State) => void;
+export type Subscription = ZenObservableSubscription;
 export type AddConsumer<State> = (consumer: Consumer<State>) => Subscription;
 export type ObservableProvider<State> = Provider<State, AddConsumer<State>>;
 

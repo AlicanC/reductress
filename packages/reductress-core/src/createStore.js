@@ -1,36 +1,20 @@
 // @flow
 
-export type Provider<State, AddConsumer> = $ReadOnly<{
-  addConsumer: AddConsumer,
-  provide: (state: State) => void,
-}>;
+import { type Provider } from ".";
 
-export type CreateProvider<State, AddConsumer> = () => Provider<State, AddConsumer>;
-
-export type Mutator<Mutate> = $ReadOnly<{
-  mutate: Mutate,
-}>;
-
-export type CreateMutator<State, Mutate> = (api: {
+export type Store<State, AddConsumer> = $ReadOnly<{
   getState: () => State,
   setState: (state: State) => void,
-}) => Mutator<Mutate>;
-
-export type Store<State, Mutate, AddConsumer> = $ReadOnly<{
-  getState: () => State,
-  setState: (state: State) => void,
-  mutate: Mutate,
   addConsumer: AddConsumer,
 }>;
 
-export default function createStore<State, Mutate, AddConsumer>(
-  createProvider: CreateProvider<State, AddConsumer>,
-  createMutator: CreateMutator<State, Mutate>,
+export default function createStore<State, AddConsumer>(
+  provider: Provider<State, AddConsumer>,
   initialState: State,
-): Store<State, Mutate, AddConsumer> {
+): Store<State, AddConsumer> {
   let state = initialState;
 
-  const { addConsumer, provide } = createProvider();
+  const { addConsumer, provide } = provider;
 
   const getState = () => state;
 
@@ -39,12 +23,9 @@ export default function createStore<State, Mutate, AddConsumer>(
     provide(state);
   };
 
-  const { mutate } = createMutator({ getState, setState });
-
   return {
     getState,
     setState,
-    mutate,
     addConsumer,
   };
 }

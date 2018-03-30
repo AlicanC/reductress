@@ -33,7 +33,7 @@ export default function createStore<State, MutationCreators: MutationCreatorsObj
     Object.keys(mutationCreators).forEach((key) => {
       const mutationCreator = mutationCreators[key];
       const mutateFn = (...args) => mutate(mutationCreator(...args));
-      mutate[key] = mutateFn
+      mutate[key] = mutateFn;
     });
 
     return {
@@ -41,11 +41,12 @@ export default function createStore<State, MutationCreators: MutationCreatorsObj
     };
   };
 
-  const { getState, setState, mutate, addConsumer } = createCoreStore(
-    createObservableProvider,
-    createMutator,
-    initialState,
-  );
+  const provider = createObservableProvider();
+
+  const coreStore = createCoreStore(provider, initialState);
+  const { getState, setState, addConsumer } = coreStore;
+
+  const { mutate } = createMutator(coreStore);
 
   return {
     getState,
