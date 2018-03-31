@@ -6,7 +6,15 @@
     "packages/*"
   ],
   "scripts": {
-    "test": "jest"
+    "test": "run-p test:*",
+    "test:jest": "jest",
+    "test:prettier": "prettier --list-different \"**/*.js\"",
+    "test-ci": "run-s test test-ci:codecov",
+    "test-ci:codecov": "codecov"
+  },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.42",
@@ -16,10 +24,12 @@
     "@babel/preset-flow": "^7.0.0-beta.42",
     "babel-core": "^7.0.0-0",
     "babel-jest": "^22.4.3",
+    "codecov": "^3.0.0",
     "flow-bin": "^0.68.0",
     "fs-extra": "^5.0.0",
     "jest": "^22.4.3",
     "lerna": "^2.9.0",
+    "npm-run-all": "^4.1.2",
     "prettier": "^1.11.1"
   }
 }
