@@ -2,7 +2,7 @@
 
 import { createStore, type Store } from '..';
 
-const createTestStore = () => {
+const createTestStore = (enhancer) => {
   type State = {| count: number |};
   type Action = { type: 'INCREMENT' };
 
@@ -22,7 +22,7 @@ const createTestStore = () => {
     count: 0,
   };
 
-  const reduxStore: Store<State, Action> = createStore(reducer, initialState);
+  const reduxStore: Store<State, Action> = createStore(reducer, initialState, enhancer);
 
   return reduxStore;
 };
@@ -33,6 +33,16 @@ const incrementAction = {
 
 it('mutates', () => {
   const reduxStore = createTestStore();
+
+  expect(reduxStore.getState().count).toBe(0);
+
+  reduxStore.dispatch(incrementAction);
+
+  expect(reduxStore.getState().count).toBe(1);
+});
+
+it('works with enhancer', () => {
+  const reduxStore = createTestStore((createStore) => (...args) => createStore(...args));
 
   expect(reduxStore.getState().count).toBe(0);
 
