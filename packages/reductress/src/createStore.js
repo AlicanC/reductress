@@ -1,7 +1,7 @@
 // @flow
 
-import { createStore as createCoreStore } from "reductress-core";
-import createObservableProvider, { type AddConsumer } from "./createObservableProvider";
+import { createStore as createCoreStore } from 'reductress-core';
+import createObservableProvider, { type AddConsumer } from './createObservableProvider';
 
 type Mutation<State> = (state: State) => State;
 type MutationCreator<State, Args> = (...args: Args) => Mutation<State>;

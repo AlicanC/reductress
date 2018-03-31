@@ -3,8 +3,8 @@
 import Observable, {
   type Observer,
   type Subscription as ZenObservableSubscription,
-} from "zen-observable";
-import { type Provider } from "reductress-core";
+} from 'zen-observable';
+import { type Provider } from 'reductress-core';
 
 export type Consumer<State> = (state: State) => void;
 export type Subscription = ZenObservableSubscription;

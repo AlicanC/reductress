@@ -1,6 +1,6 @@
 // @flow
 
-import { type Provider } from ".";
+import { type Provider } from '.';
 
 export type Store<State, AddConsumer> = $ReadOnly<{
   getState: () => State,

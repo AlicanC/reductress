@@ -1,8 +1,8 @@
 // @flow
 
-import { createObservableProvider } from "..";
+import { createObservableProvider } from '..';
 
-it("bleh", () => {
+it('bleh', () => {
   const { addConsumer, provide } = createObservableProvider();
 
   const consumer = jest.fn();

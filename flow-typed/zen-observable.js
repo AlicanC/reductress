@@ -12,9 +12,7 @@ declare module 'zen-observable' {
     get closed(): boolean,
   };
 
-  declare export type SubscriberFunction<T> = (
-    observer: Observer<T>,
-  ) => () => void | Subscription;
+  declare export type SubscriberFunction<T> = (observer: Observer<T>) => () => void | Subscription;
 
   declare export default class Observable<T> {
     constructor(subscriber: SubscriberFunction<T>): Observable<T>;

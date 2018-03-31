@@ -1,14 +1,14 @@
 // @flow
 
-import { createStore, type Store } from "..";
+import { createStore, type Store } from '..';
 
 const createTestStore = () => {
   type State = {| count: number |};
-  type Action = { type: "INCREMENT" };
+  type Action = { type: 'INCREMENT' };
 
   const reducer = (state: State, action: Action) => {
     switch (action.type) {
-      case "INCREMENT": {
+      case 'INCREMENT': {
         return {
           count: state.count + 1,
         };
@@ -28,10 +28,10 @@ const createTestStore = () => {
 };
 
 const incrementAction = {
-  type: "INCREMENT",
+  type: 'INCREMENT',
 };
 
-it("mutates", () => {
+it('mutates', () => {
   const reduxStore = createTestStore();
 
   expect(reduxStore.getState().count).toBe(0);
@@ -41,7 +41,7 @@ it("mutates", () => {
   expect(reduxStore.getState().count).toBe(1);
 });
 
-it("provides", () => {
+it('provides', () => {
   const reduxStore = createTestStore();
 
   const consumer = jest.fn();

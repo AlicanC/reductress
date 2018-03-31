@@ -1,8 +1,8 @@
 // @flow
 
-import { createStore } from "..";
+import { createStore } from '..';
 
-test("mutate", () => {
+test('mutate', () => {
   const mutationCreators = {
     increment: () => (state) => ({
       count: state.count + 1,
@@ -27,7 +27,7 @@ test("mutate", () => {
   expect(store.getState()).toEqual({ count: 4 });
 });
 
-test("mutate w/ argumemt", () => {
+test('mutate w/ argumemt', () => {
   const mutationCreators = {
     increment: (amount: number) => (state) => ({
       count: state.count + amount,
@@ -45,7 +45,7 @@ test("mutate w/ argumemt", () => {
   expect(store.getState()).toEqual({ count: 2 });
 });
 
-test("provide", () => {
+test('provide', () => {
   const mutationCreators = {
     increment: () => (state) => ({
       count: state.count + 1,

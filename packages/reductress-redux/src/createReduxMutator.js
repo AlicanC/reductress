@@ -1,6 +1,6 @@
 // @flow
 
-import { type MutatorApi } from "reductress-core";
+import { type MutatorApi } from 'reductress-core';
 
 export type Reducer<State, Action> = (state: State, action: Action) => State;
 export type Dispatch<Action> = (action: Action) => void;

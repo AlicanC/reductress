@@ -1,8 +1,8 @@
 // @flow
 
-import { createObservableProvider, createThunkMutator } from "reductress";
+import { createObservableProvider, createThunkMutator } from 'reductress';
 
-import { createStore } from "..";
+import { createStore } from '..';
 
 const createTestStore = () => {
   const initialState = {
@@ -22,7 +22,7 @@ const incrementMutation = (state) => ({
   count: state.count + 1,
 });
 
-it("mutates", () => {
+it('mutates', () => {
   const { store, mutate } = createTestStore();
 
   mutate(incrementMutation);
@@ -32,7 +32,7 @@ it("mutates", () => {
   expect(store.getState().count).toBe(3);
 });
 
-it("provides after mutation", () => {
+it('provides after mutation', () => {
   const { store, mutate } = createTestStore();
 
   const consumer = jest.fn();
@@ -49,7 +49,7 @@ it("provides after mutation", () => {
   expect(consumer).toHaveBeenCalledTimes(3);
 });
 
-it("creates frozen store", () => {
+it('creates frozen store', () => {
   const { store } = createTestStore();
 
   expect(() => {
@@ -58,7 +58,7 @@ it("creates frozen store", () => {
   }).toThrow();
 });
 
-it("provides after setState", () => {
+it('provides after setState', () => {
   const { store } = createTestStore();
 
   const consumer = jest.fn();

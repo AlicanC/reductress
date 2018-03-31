@@ -1,8 +1,8 @@
 // @flow
 
-import createStore from "./createStore";
+import createStore from './createStore';
 
-export type { Store } from "./createStore";
+export type { Store } from './createStore';
 
 export type Provider<State, AddConsumer> = $ReadOnly<{
   addConsumer: AddConsumer,

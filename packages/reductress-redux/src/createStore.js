@@ -1,12 +1,12 @@
 // @flow
 
-import { createObservableProvider, type ObservableProviderAddConsumer } from "reductress";
+import { createObservableProvider, type ObservableProviderAddConsumer } from 'reductress';
 import {
   createStore as createReductressCoreStore,
   type Store as ReductressStore,
-} from "reductress-core";
+} from 'reductress-core';
 
-import createReduxMutator, { type Reducer, type Dispatch } from "./createReduxMutator";
+import createReduxMutator, { type Reducer, type Dispatch } from './createReduxMutator';
 
 export type Store<State, Action> = $ReadOnly<{
   getState: () => State,
