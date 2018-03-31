@@ -22,8 +22,12 @@ export default function createObservableProvider<State>(): ObservableProvider<St
     };
   });
 
-  return {
+  const provider = {
     addConsumer: (consumer: Consumer<State>) => observable.subscribe(consumer),
     provide: (state: State) => observers.forEach((o) => o.next(state)),
   };
+
+  Object.freeze(provider);
+
+  return provider;
 }

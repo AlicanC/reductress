@@ -12,7 +12,11 @@ export default function createReduxMutator<State, Action>(
   { getState, setState }: MutatorApi<State>,
   reducer: Reducer<State, Action>,
 ): ReduxMutator<Action> {
-  return {
+  const mutator = {
     mutate: (action) => setState(reducer(getState(), action)),
   };
+
+  Object.freeze(mutator);
+
+  return mutator;
 }

@@ -48,6 +48,15 @@ it("provides after mutation", () => {
   expect(consumer).toHaveBeenCalledTimes(3);
 });
 
+it("creates frozen store", () => {
+  const { store } = createTestStore();
+
+  expect(() => {
+    // $FlowExpectError
+    store.a = true;
+  }).toThrow();
+});
+
 it("provides after setState", () => {
   const { store } = createTestStore();
 

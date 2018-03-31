@@ -35,9 +35,13 @@ export default function createStore<State, Action>(
 
   const { mutate } = createReduxMutator(reductressStore, reducer);
 
-  return {
+  const store = {
     getState,
     dispatch: mutate,
     subscribe: addConsumer,
   };
+
+  Object.freeze(store);
+
+  return store;
 }

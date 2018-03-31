@@ -12,7 +12,11 @@ export default function createThunkMutator<State>({
   getState,
   setState,
 }: MutatorApi<State>): ThunkMutator<State> {
-  return {
+  const mutator = {
     mutate: (mutation) => setState(mutation(getState())),
   };
+
+  Object.freeze(mutator);
+
+  return mutator;
 }

@@ -23,9 +23,13 @@ export default function createStore<State, AddConsumer>(
     provide(state);
   };
 
-  return {
+  const store = {
     getState,
     setState,
     addConsumer,
   };
+
+  Object.freeze(store);
+
+  return store;
 }

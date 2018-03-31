@@ -36,9 +36,15 @@ export default function createStore<State, MutationCreators: MutationCreatorsObj
       mutate[key] = mutateFn;
     });
 
-    return {
+    Object.freeze(mutate);
+
+    const mutator = {
       mutate,
     };
+
+    Object.freeze(mutator);
+
+    return mutator;
   };
 
   const provider = createObservableProvider();
@@ -48,10 +54,14 @@ export default function createStore<State, MutationCreators: MutationCreatorsObj
 
   const { mutate } = createMutator(coreStore);
 
-  return {
+  const store = {
     getState,
     setState,
     mutate,
     subscribe: addConsumer,
   };
+
+  Object.freeze(store);
+
+  return store;
 }
