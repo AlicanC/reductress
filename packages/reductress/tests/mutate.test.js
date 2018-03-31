@@ -1,6 +1,6 @@
 // @flow
 
-import createStore from "../src/createStore";
+import { createStore } from "..";
 
 test("mutate", () => {
   const mutationCreators = {

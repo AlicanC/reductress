@@ -1,6 +1,6 @@
 // @flow
 
-import createStore, { type Store } from "../src/createStore";
+import { createStore, type Store } from "..";
 
 const createTestStore = () => {
   type State = {| count: number |};

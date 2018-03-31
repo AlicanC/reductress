@@ -1,11 +1,10 @@
 // @flow
 
+import { createObservableProvider, type ObservableProviderAddConsumer } from "reductress";
 import {
-  createStore as createReductressStore,
-  createObservableProvider,
-  type ObservableProviderAddConsumer,
-} from "reductress";
-import { type Store as ReductressStore } from "reductress-core";
+  createStore as createReductressCoreStore,
+  type Store as ReductressStore,
+} from "reductress-core";
 
 import createReduxMutator, { type Reducer, type Dispatch } from "./createReduxMutator";
 
@@ -29,7 +28,7 @@ export default function createStore<State, Action>(
 
   const provider = createObservableProvider();
 
-  const reductressStore = createReductressStore(provider, initialState);
+  const reductressStore = createReductressCoreStore(provider, initialState);
 
   const { getState, addConsumer } = reductressStore;
 

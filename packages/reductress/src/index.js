@@ -1,7 +1,6 @@
 // @flow
 
-import { createStore } from "reductress-core";
-
+import createStore from "./createStore";
 import createObservableProvider from "./createObservableProvider";
 import createThunkMutator from "./createThunkMutator";
 

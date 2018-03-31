@@ -1,6 +1,6 @@
 // @flow
 
-import createObservableProvider from "../src/createObservableProvider";
+import { createObservableProvider } from "..";
 
 it("bleh", () => {
   const { addConsumer, provide } = createObservableProvider();
