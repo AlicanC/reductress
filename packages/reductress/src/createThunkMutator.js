@@ -1,6 +1,6 @@
 // @flow
 
-import { type Store, type MutatorApi } from 'reductress-core';
+import { type MutatorApi } from 'reductress-core';
 
 export type ThunkMutation<State> = (state: State) => State;
 
