@@ -5,6 +5,7 @@ import createObservableProvider from './createObservableProvider';
 import createThunkMutator from './createThunkMutator';
 
 export type {
+  ObservableProvider,
   AddConsumer as ObservableProviderAddConsumer,
   Subscription as ObservableProviderSubscription,
 } from './createObservableProvider';
