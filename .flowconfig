@@ -10,6 +10,8 @@ unsafe-getters-setters=warn
 
 [options]
 emoji=true
+suppress_type=$FlowFixMe
+suppress_comment=\\(.\\|\n\\)*\\$FlowFixMe
 suppress_comment=\\(.\\|\n\\)*\\$FlowExpectError
 
 [strict]
