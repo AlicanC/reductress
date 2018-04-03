@@ -3,23 +3,26 @@
 import { type MutatorApi, type Mutator } from 'reductress-core';
 import flow from 'lodash.flow';
 
-export type Reducer<State, Action> = (state: State, action: Action) => State;
-export type Dispatch<Action> = (action: Action) => void;
-export type ReplaceReducer<State, Action> = (nextReducer: Reducer<State, Action>) => void;
-export type MiddlewareApi<State, Action> = $ReadOnly<{
+export type ActionObject = { type: $Subtype<string> };
+export type Reducer<State, Action: ActionObject> = (state: State, action: Action) => State;
+export type Dispatch<Action: ActionObject> = (action: Action) => void;
+export type ReplaceReducer<State, Action: ActionObject> = (
+  nextReducer: Reducer<State, Action>,
+) => void;
+export type MiddlewareApi<State, Action: ActionObject> = $ReadOnly<{
   getState: () => State,
   dispatch: Dispatch<Action>,
 }>;
-export type Middleware<State, Action> = (
+export type Middleware<State, Action: ActionObject> = (
   api: MiddlewareApi<State, Action>,
 ) => (nextDispatch: Dispatch<Action>) => Dispatch<Action>;
-export type Middlewares<State, Action> = $ReadOnlyArray<Middleware<State, Action>>;
-export type ReduxMutator<State, Action> = Mutator<Dispatch<Action>> &
+export type Middlewares<State, Action: ActionObject> = $ReadOnlyArray<Middleware<State, Action>>;
+export type ReduxMutator<State, Action: ActionObject> = Mutator<Dispatch<Action>> &
   $ReadOnly<{
     replaceReducer: ReplaceReducer<State, Action>,
   }>;
 
-export default function createReduxMutator<State, Action>(
+export default function createReduxMutator<State, Action: ActionObject>(
   { getState, setState }: MutatorApi<State>,
   initialReducer: Reducer<State, Action>,
   middlewares: ?Middlewares<State, Action>,
