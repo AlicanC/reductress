@@ -1,8 +1,9 @@
 // @flow
 
-import createStore from './createStore';
+import createReduxStore from './createReduxStore';
+import createReduxStoreInterface from './createReduxStoreInterface';
 import createReduxMutator from './createReduxMutator';
 
-export type { Store } from './createStore';
+export type { ReduxStore } from './createReduxStoreInterface';
 
-export { createStore, createReduxMutator };
+export { createReduxStore, createReduxStoreInterface, createReduxMutator };

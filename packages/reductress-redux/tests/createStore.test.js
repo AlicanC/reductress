@@ -1,6 +1,6 @@
 // @flow
 
-import { createStore, type Store } from '..';
+import { createReduxStore, type ReduxStore } from '..';
 
 const createTestStore = (enhancer) => {
   type State = {| count: number |};
@@ -22,7 +22,7 @@ const createTestStore = (enhancer) => {
     count: 0,
   };
 
-  const reduxStore: Store<State, Action> = createStore(reducer, initialState, enhancer);
+  const reduxStore: ReduxStore<State, Action> = createReduxStore(reducer, initialState, enhancer);
 
   return reduxStore;
 };

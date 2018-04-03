@@ -5,6 +5,7 @@ import flow from 'lodash.flow';
 
 export type Reducer<State, Action> = (state: State, action: Action) => State;
 export type Dispatch<Action> = (action: Action) => void;
+export type ReplaceReducer<State, Action> = (nextReducer: Reducer<State, Action>) => void;
 export type MiddlewareApi<State, Action> = $ReadOnly<{
   getState: () => State,
   dispatch: Dispatch<Action>,
@@ -13,31 +14,38 @@ export type Middleware<State, Action> = (
   api: MiddlewareApi<State, Action>,
 ) => (nextDispatch: Dispatch<Action>) => Dispatch<Action>;
 export type Middlewares<State, Action> = $ReadOnlyArray<Middleware<State, Action>>;
-export type ReduxMutator<Action> = Mutator<Dispatch<Action>>;
+export type ReduxMutator<State, Action> = Mutator<Dispatch<Action>> &
+  $ReadOnly<{
+    replaceReducer: ReplaceReducer<State, Action>,
+  }>;
 
 export default function createReduxMutator<State, Action>(
   { getState, setState }: MutatorApi<State>,
-  reducer: Reducer<State, Action>,
+  initialReducer: Reducer<State, Action>,
   middlewares: ?Middlewares<State, Action>,
-): ReduxMutator<Action> {
-  const dispatch = (action) => setState(reducer(getState(), action));
+): ReduxMutator<State, Action> {
+  let reducer = initialReducer;
+  const baseDispatch: Dispatch<Action> = (action) => setState(reducer(getState(), action));
 
-  let middlewareDispatch: ?Dispatch<Action>;
+  let dispatch = baseDispatch;
   if (middlewares) {
     const middlewareApi: MiddlewareApi<State, Action> = {
       getState,
-      dispatch,
+      dispatch: (action) => dispatch(action),
     };
 
     Object.freeze(middlewareApi);
 
     const middlewareChain = middlewares.map((m) => m(middlewareApi));
 
-    middlewareDispatch = flow(...middlewareChain)(dispatch);
+    dispatch = flow(...middlewareChain)(baseDispatch);
   }
 
   const mutator = {
-    mutate: middlewareDispatch || dispatch,
+    mutate: dispatch,
+    replaceReducer: (nextReducer) => {
+      reducer = nextReducer;
+    },
   };
 
   Object.freeze(mutator);
