@@ -1,6 +1,6 @@
 // @flow
 
-import { createStore, createObservableProvider, createThunkMutator } from '..';
+import { createStore } from '..';
 
 const createTestStore = () => {
   const initialState = {
@@ -13,16 +13,10 @@ const createTestStore = () => {
     }),
   };
 
-  const provider = createObservableProvider();
-
   const store = createStore(initialState, mutationCreators);
 
   return { store };
 };
-
-const incrementMutation = (state) => ({
-  count: state.count + 1,
-});
 
 it('creates frozen store', () => {
   const { store } = createTestStore();

@@ -59,7 +59,6 @@ test('provide', () => {
     mutationCreators,
   );
 
-  let prevState = store.getState();
   const consumer = jest.fn();
 
   store.subscribe(consumer);
