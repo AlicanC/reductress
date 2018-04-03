@@ -10,6 +10,7 @@
     "test:jest": "jest",
     "test:prettier": "prettier --list-different \"**/*.js\"",
     "test:eslint": "eslint \"packages/**/*.js\"",
+    "test:flow": "flow check",
     "test-ci": "run-s test test-ci:codecov",
     "test-ci:codecov": "codecov"
   },
