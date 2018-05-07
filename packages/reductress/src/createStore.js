@@ -1,7 +1,9 @@
 // @flow
 
 import { createStore as createCoreStore } from 'reductress-core';
+
 import createObservableProvider, { type AddConsumer } from './createObservableProvider';
+import createThunkMutator from './createThunkMutator';
 
 type Mutation<State> = (state: State) => State;
 type MutationCreator<State, Args> = (...args: Args) => Mutation<State>;
@@ -27,8 +29,8 @@ export default function createStore<State, MutationCreators: MutationCreatorsObj
   initialState: State,
   mutationCreators: MutationCreators,
 ): Store<State, MutationCreators> {
-  const createMutator = ({ getState, setState }) => {
-    const mutate = (mutation) => setState(mutation(getState()));
+  const createMutator = (mutatorApi) => {
+    const { mutate } = createThunkMutator(mutatorApi);
 
     Object.keys(mutationCreators).forEach((key) => {
       const mutationCreator = mutationCreators[key];
