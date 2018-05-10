@@ -1,0 +1,17 @@
+{
+  "name": "reductress-react",
+  "version": "0.0.1",
+  "main": "src/index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "babel -d dist src"
+  },
+  "peerDependencies": {
+    "react": "^16.3.0"
+  },
+  "devDependencies": {
+    "eslint-plugin-react": "^7.7.0",
+    "react": "^16.3.2",
+    "react-test-renderer": "^16.3.2"
+  }
+}

@@ -3,7 +3,10 @@
 import { type MutatorApi, type Mutator } from 'reductress-core';
 import flow from 'lodash.flow';
 
-export type ActionObject = { type: $Subtype<string> };
+export type ActionObject = {
+  //$FlowFixMe
+  type: $Subtype<string>,
+};
 export type Reducer<State, Action: ActionObject> = (state: State, action: Action) => State;
 export type Dispatch<Action: ActionObject> = (action: Action) => void;
 export type ReplaceReducer<State, Action: ActionObject> = (

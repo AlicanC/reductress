@@ -15,7 +15,11 @@ type Mutate<State, MutationCreators: {}> = $ObjMap<
 };
 
 type MutationCreatorsObj<State> = $ReadOnly<{
-  [name: string]: MutationCreator<State, Array<*>>,
+  [name: string]: MutationCreator<
+    State,
+    // $FlowFixMe
+    Array<*>,
+  >,
 }>;
 
 type Store<State, MutationCreators: MutationCreatorsObj<State>> = $ReadOnly<{
