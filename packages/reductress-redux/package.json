@@ -1,6 +1,6 @@
 {
   "name": "reductress-redux",
-  "version": "0.0.3-alpha.1",
+  "version": "0.0.3-alpha.2",
   "main": "src/index.js",
   "license": "MIT",
   "scripts": {
@@ -8,6 +8,6 @@
   },
   "dependencies": {
     "lodash.flow": "^3.5.0",
-    "reductress": "^0.0.3-alpha.1"
+    "reductress": "^0.0.3-alpha.2"
   }
 }
