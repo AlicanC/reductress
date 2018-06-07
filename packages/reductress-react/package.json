@@ -1,6 +1,6 @@
 {
   "name": "reductress-react",
-  "version": "0.0.3-alpha.2",
+  "version": "0.0.3-alpha.3",
   "main": "src/index.js",
   "license": "MIT",
   "scripts": {
