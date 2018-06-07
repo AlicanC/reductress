@@ -1,13 +1,12 @@
 {
   "name": "reductress",
-  "version": "0.0.3-alpha.3",
+  "version": "0.0.3-alpha.4",
   "main": "src/index.js",
   "license": "MIT",
   "scripts": {
     "build": "babel -d dist src"
   },
   "dependencies": {
-    "reductress-core": "^0.0.3-alpha.3",
-    "zen-observable": "^0.8.8"
+    "reductress-core": "^0.0.3-alpha.4"
   }
 }
