@@ -1,7 +1,6 @@
 // @flow
 
-import { type ObservableProviderAddConsumer } from 'reductress';
-import { type Store as ReductressStore } from 'reductress-core';
+import { type Store as ReductressStore, type ObservableProviderAddConsumer } from 'reductress-core';
 
 import {
   type ActionObject,

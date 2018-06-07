@@ -1,6 +1,7 @@
 // @flow
 
 import createStore from './createStore';
+import createObservableProvider from './createObservableProvider';
 
 export type { Store } from './createStore';
 
@@ -18,4 +19,10 @@ export type Mutator<Mutate> = $ReadOnly<{
   mutate: Mutate,
 }>;
 
-export { createStore };
+export type {
+  ObservableProvider,
+  AddConsumer as ObservableProviderAddConsumer,
+  Subscription as ObservableProviderSubscription,
+} from './createObservableProvider';
+
+export { createStore, createObservableProvider };

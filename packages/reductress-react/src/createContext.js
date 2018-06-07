@@ -1,8 +1,7 @@
 // @flow
 
 import { createContext as createReactContext, type ComponentType, type Node } from 'react';
-import { type ObservableProviderAddConsumer } from 'reductress';
-import { type Store, type Mutator } from 'reductress-core';
+import { type Store, type Mutator, type ObservableProviderAddConsumer } from 'reductress-core';
 
 import createProvider, { type Provider } from './createProvider';
 import createConsumer, { type Consumer } from './createConsumer';

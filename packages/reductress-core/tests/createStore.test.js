@@ -1,8 +1,8 @@
 // @flow
 
-import { createObservableProvider, createThunkMutator } from 'reductress';
+import { createThunkMutator } from 'reductress';
 
-import { createStore } from '..';
+import { createStore, createObservableProvider } from '..';
 
 const createTestStore = () => {
   const initialState = {

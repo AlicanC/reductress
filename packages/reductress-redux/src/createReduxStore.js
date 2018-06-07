@@ -1,7 +1,9 @@
 // @flow
 
-import { createObservableProvider } from 'reductress';
-import { createStore as createReductressCoreStore } from 'reductress-core';
+import {
+  createStore as createReductressCoreStore,
+  createObservableProvider,
+} from 'reductress-core';
 
 import createReduxMutator, { type ActionObject, type Reducer } from './createReduxMutator';
 import createReduxStoreInterface, { type ReduxStore } from './createReduxStoreInterface';

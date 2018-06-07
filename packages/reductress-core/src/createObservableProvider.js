@@ -9,7 +9,10 @@ import { type Provider } from 'reductress-core';
 export type Consumer<State> = (state: State) => void;
 export type Subscription = ZenObservableSubscription;
 export type AddConsumer<State> = (consumer: Consumer<State>) => Subscription;
-export type ObservableProvider<State> = Provider<State, AddConsumer<State>>;
+export type ObservableProvider<State> = Provider<State, AddConsumer<State>> &
+  $ReadOnly<{
+    observable: Observable<State>,
+  }>;
 
 export default function createObservableProvider<State>(): ObservableProvider<State> {
   const observers: Set<Observer<State>> = new Set();
@@ -23,6 +26,7 @@ export default function createObservableProvider<State>(): ObservableProvider<St
   });
 
   const provider = {
+    observable,
     addConsumer: (consumer: Consumer<State>) => observable.subscribe(consumer),
     provide: (state: State) => observers.forEach((o) => o.next(state)),
   };

@@ -3,8 +3,8 @@
 import * as React from 'react';
 // $FlowFixMe
 import TestRenderer from 'react-test-renderer';
-import { createObservableProvider, createThunkMutator } from 'reductress';
-import { createStore } from 'reductress-core';
+import { createStore, createObservableProvider } from 'reductress-core';
+import { createThunkMutator } from 'reductress';
 
 import { createContext } from '..';
 

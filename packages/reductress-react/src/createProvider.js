@@ -4,7 +4,7 @@ import React, { type ComponentType, PureComponent } from 'react';
 import {
   type ObservableProviderAddConsumer,
   type ObservableProviderSubscription,
-} from 'reductress';
+} from 'reductress-core';
 
 import { type React$Context } from './createContext';
 import { type ReactContextValue } from './createContext';
@@ -30,12 +30,21 @@ export default function createProvider<
   reactContext,
   getReactContextValue,
 }: ProviderApi<StoreState, AddConsumer, Mutate>): Provider {
-  return class extends PureComponent<mixed> {
+  type ProviderState = {
+    reactContextValue: ReactContextValue<StoreState, Mutate>,
+  };
+
+  return class extends PureComponent<mixed, ProviderState> {
+    state = {
+      reactContextValue: getReactContextValue(),
+    };
     subscription: ObservableProviderSubscription | null = null;
 
     componentDidMount() {
       this.subscription = addConsumer(() => {
-        this.forceUpdate();
+        this.setState({
+          reactContextValue: getReactContextValue(),
+        });
       });
     }
 
@@ -46,7 +55,7 @@ export default function createProvider<
     }
 
     render() {
-      const reactContextValue = getReactContextValue();
+      const { reactContextValue } = this.state;
 
       return <reactContext.Provider {...this.props} value={reactContextValue} />;
     }

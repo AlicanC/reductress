@@ -1,8 +1,11 @@
 // @flow
 
-import { createStore as createCoreStore } from 'reductress-core';
+import {
+  createStore as createCoreStore,
+  createObservableProvider,
+  type ObservableProviderAddConsumer as AddConsumer,
+} from 'reductress-core';
 
-import createObservableProvider, { type AddConsumer } from './createObservableProvider';
 import createThunkMutator from './createThunkMutator';
 
 type Mutation<State> = (state: State) => State;
