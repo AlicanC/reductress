@@ -45,7 +45,7 @@ test('mutate w/ argumemt', () => {
   expect(store.getState()).toEqual({ count: 2 });
 });
 
-test('provide', () => {
+test('send update', () => {
   const mutationCreators = {
     increment: () => (state) => ({
       count: state.count + 1,
@@ -59,18 +59,18 @@ test('provide', () => {
     mutationCreators,
   );
 
-  const consumer = jest.fn();
+  const subscriber = jest.fn();
 
-  store.subscribe(consumer);
-  expect(consumer).toHaveBeenCalledTimes(0);
-
-  store.mutate.increment();
-  expect(consumer).toHaveBeenCalledTimes(1);
-  expect(consumer).toHaveBeenLastCalledWith({ count: 1 });
+  store.subscribe(subscriber);
+  expect(subscriber).toHaveBeenCalledTimes(0);
 
   store.mutate.increment();
+  expect(subscriber).toHaveBeenCalledTimes(1);
+  expect(subscriber).toHaveBeenLastCalledWith({ count: 1 });
+
   store.mutate.increment();
   store.mutate.increment();
-  expect(consumer).toHaveBeenCalledTimes(4);
-  expect(consumer).toHaveBeenLastCalledWith({ count: 4 });
+  store.mutate.increment();
+  expect(subscriber).toHaveBeenCalledTimes(4);
+  expect(subscriber).toHaveBeenLastCalledWith({ count: 4 });
 });

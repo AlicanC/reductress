@@ -51,18 +51,18 @@ it('works with enhancer', () => {
   expect(reduxStore.getState().count).toBe(1);
 });
 
-it('provides', () => {
+it('sends updates', () => {
   const reduxStore = createTestStore();
 
-  const consumer = jest.fn();
+  const subscriber = jest.fn();
 
-  reduxStore.subscribe(consumer);
+  reduxStore.subscribe(subscriber);
 
-  expect(consumer).toHaveBeenCalledTimes(0);
+  expect(subscriber).toHaveBeenCalledTimes(0);
 
   reduxStore.dispatch(incrementAction);
   reduxStore.dispatch(incrementAction);
   reduxStore.dispatch(incrementAction);
 
-  expect(consumer).toHaveBeenCalledTimes(3);
+  expect(subscriber).toHaveBeenCalledTimes(3);
 });

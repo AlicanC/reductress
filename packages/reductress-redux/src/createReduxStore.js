@@ -1,6 +1,5 @@
 // @flow
 
-import { createObservableProvider } from 'reductress';
 import { createStore as createReductressCoreStore } from 'reductress-core';
 
 import createReduxMutator, { type ActionObject, type Reducer } from './createReduxMutator';
@@ -19,8 +18,7 @@ export default function createReduxStore<State, Action: ActionObject>(
     return enhancer(createReduxStore)(reducer, initialState);
   }
 
-  const provider = createObservableProvider();
-  const reductressStore = createReductressCoreStore(provider, initialState);
+  const reductressStore = createReductressCoreStore(initialState);
   const reduxMutator = createReduxMutator(reductressStore, reducer);
 
   const reduxStoreInterface = createReduxStoreInterface(reductressStore, reduxMutator);

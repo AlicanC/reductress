@@ -1,32 +1,44 @@
 // @flow
 
-import { type Provider } from '.';
+import Observable, { type Observer } from 'zen-observable';
 
-export type Store<State, AddConsumer> = $ReadOnly<{
+export type Updates<State> = Observable<State>;
+
+export type Store<State> = $ReadOnly<{
   getState: () => State,
   setState: (state: State) => void,
-  addConsumer: AddConsumer,
+  updates: Updates<State>,
 }>;
 
-export default function createStore<State, AddConsumer>(
-  provider: Provider<State, AddConsumer>,
-  initialState: State,
-): Store<State, AddConsumer> {
-  let state = initialState;
+export default function createStore<State>(initialState: State): Store<State> {
+  // State observation
+  const observers: Set<Observer<State>> = new Set();
 
-  const { addConsumer, provide } = provider;
+  const updates = new Observable((observer) => {
+    observers.add(observer);
+
+    return () => {
+      observers.delete(observer);
+    };
+  });
+
+  const send = (state: State) => observers.forEach((o) => o.next(state));
+
+  // State management
+  let state = initialState;
 
   const getState = () => state;
 
   const setState = (nextState: State) => {
     state = nextState;
-    provide(state);
+    send(state);
   };
 
+  // Store
   const store = {
     getState,
     setState,
-    addConsumer,
+    updates,
   };
 
   Object.freeze(store);

@@ -1,8 +1,7 @@
 // @flow
 
-import { createStore as createCoreStore } from 'reductress-core';
+import { createStore as createCoreStore, type Updates } from 'reductress-core';
 
-import createObservableProvider, { type AddConsumer } from './createObservableProvider';
 import createThunkMutator from './createThunkMutator';
 
 type Mutation<State> = (state: State) => State;
@@ -28,7 +27,7 @@ type Store<State, MutationCreators: MutationCreatorsObj<State>> = $ReadOnly<{
   getState: () => State,
   setState: (state: State) => void,
   mutate: Mutate<State, MutationCreators>,
-  subscribe: AddConsumer<State>,
+  subscribe: $PropertyType<Updates<State>, 'subscribe'>,
 }>;
 
 export default function createStore<State, MutationCreators: MutationCreatorsObj<State>>(
@@ -55,10 +54,8 @@ export default function createStore<State, MutationCreators: MutationCreatorsObj
     return mutator;
   };
 
-  const provider = createObservableProvider();
-
-  const coreStore = createCoreStore(provider, initialState);
-  const { getState, setState, addConsumer } = coreStore;
+  const coreStore = createCoreStore(initialState);
+  const { getState, setState, updates } = coreStore;
 
   const { mutate } = createMutator(coreStore);
 
@@ -66,7 +63,7 @@ export default function createStore<State, MutationCreators: MutationCreatorsObj
     getState,
     setState,
     mutate,
-    subscribe: addConsumer,
+    subscribe: (fn) => updates.subscribe(fn),
   };
 
   Object.freeze(store);
