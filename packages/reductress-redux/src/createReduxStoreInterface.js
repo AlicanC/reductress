@@ -1,7 +1,6 @@
 // @flow
 
-import { type ObservableProviderAddConsumer } from 'reductress';
-import { type Store as ReductressStore } from 'reductress-core';
+import { type Store as ReductressStore, type Updates as ReductressUpdates } from 'reductress-core';
 
 import {
   type ActionObject,
@@ -13,22 +12,22 @@ import {
 export type ReduxStore<State, Action: ActionObject> = $ReadOnly<{
   getState: () => State,
   dispatch: Dispatch<Action>,
-  subscribe: ObservableProviderAddConsumer<State>,
+  subscribe: $PropertyType<ReductressUpdates<State>, 'subscribe'>,
   replaceReducer: ReplaceReducer<State, Action>,
 }>;
 
 export default function createReduxStoreInterface<State, Action: ActionObject>(
-  reductressStore: ReductressStore<State, ObservableProviderAddConsumer<State>>,
+  reductressStore: ReductressStore<State>,
   reduxMutator: ReduxMutator<State, Action>,
 ): ReduxStore<State, Action> {
-  const { getState, addConsumer } = reductressStore;
+  const { getState, updates } = reductressStore;
 
   const { mutate, replaceReducer } = reduxMutator;
 
   const store = {
     getState,
     dispatch: mutate,
-    subscribe: addConsumer,
+    subscribe: (fn) => updates.subscribe(fn),
     replaceReducer,
   };
 

@@ -1,6 +1,6 @@
 // @flow
 
-import { createObservableProvider, createThunkMutator } from 'reductress';
+import { createThunkMutator } from 'reductress';
 
 import { createStore } from '..';
 
@@ -9,9 +9,7 @@ const createTestStore = () => {
     count: 0,
   };
 
-  const provider = createObservableProvider();
-
-  const store = createStore(provider, initialState);
+  const store = createStore(initialState);
 
   const { mutate } = createThunkMutator(store);
 
@@ -32,21 +30,21 @@ it('mutates', () => {
   expect(store.getState().count).toBe(3);
 });
 
-it('provides after mutation', () => {
+it('sends update after mutation', () => {
   const { store, mutate } = createTestStore();
 
-  const consumer = jest.fn();
+  const subscriber = jest.fn();
 
-  store.addConsumer(consumer);
-
-  mutate(incrementMutation);
-
-  expect(consumer).toHaveBeenLastCalledWith(store.getState());
+  store.updates.subscribe(subscriber);
 
   mutate(incrementMutation);
+
+  expect(subscriber).toHaveBeenLastCalledWith(store.getState());
+
+  mutate(incrementMutation);
   mutate(incrementMutation);
 
-  expect(consumer).toHaveBeenCalledTimes(3);
+  expect(subscriber).toHaveBeenCalledTimes(3);
 });
 
 it('creates frozen store', () => {
@@ -58,19 +56,37 @@ it('creates frozen store', () => {
   }).toThrow();
 });
 
-it('provides after setState', () => {
+it('sends update after setState', () => {
   const { store } = createTestStore();
 
-  const consumer = jest.fn();
+  const subscriber = jest.fn();
 
-  store.addConsumer(consumer);
+  store.updates.subscribe(subscriber);
+
+  store.setState(incrementMutation(store.getState()));
+
+  expect(subscriber).toHaveBeenLastCalledWith(store.getState());
+
+  store.setState(incrementMutation(store.getState()));
+  store.setState(incrementMutation(store.getState()));
+
+  expect(subscriber).toHaveBeenCalledTimes(3);
+});
+
+it('stops providing after unsubscription', () => {
+  const { store } = createTestStore();
+
+  const subscriber = jest.fn();
+
+  const subscription = store.updates.subscribe(subscriber);
 
   store.setState(incrementMutation(store.getState()));
 
-  expect(consumer).toHaveBeenLastCalledWith(store.getState());
+  expect(subscriber).toHaveBeenCalledTimes(1);
+
+  subscription.unsubscribe();
 
   store.setState(incrementMutation(store.getState()));
-  store.setState(incrementMutation(store.getState()));
 
-  expect(consumer).toHaveBeenCalledTimes(3);
+  expect(subscriber).toHaveBeenCalledTimes(1);
 });
