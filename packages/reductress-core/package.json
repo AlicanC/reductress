@@ -7,7 +7,9 @@
     "build": "babel -d lib src"
   },
   "devDependencies": {
-    "reductress": "^0.1.1",
+    "reductress": "^0.1.1"
+  },
+  "dependencies": {
     "zen-observable": "^0.8.8"
   }
 }
