@@ -2,9 +2,16 @@
 
 import { createThunkMutator } from 'reductress';
 
-import { createStore } from '..';
+import { createStore, type Store } from '..';
 
-const createTestStore = () => {
+type State = {
+  count: number,
+};
+
+const createTestStore = (): {
+  mutate: $PropertyType<$Call<typeof createThunkMutator, Store<State>>, 'mutate'>,
+  store: Store<State>,
+} => {
   const initialState = {
     count: 0,
   };
@@ -16,7 +23,7 @@ const createTestStore = () => {
   return { store, mutate };
 };
 
-const incrementMutation = (state) => ({
+const incrementMutation = (state: State) => ({
   count: state.count + 1,
 });
 
@@ -73,7 +80,7 @@ it('sends update after setState', () => {
   expect(subscriber).toHaveBeenCalledTimes(3);
 });
 
-it('stops providing after unsubscription', () => {
+it('stops sending updates after unsubscription', () => {
   const { store } = createTestStore();
 
   const subscriber = jest.fn();
