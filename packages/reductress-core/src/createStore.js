@@ -16,7 +16,6 @@ export default function createStore<State>(initialState: State): Store<State> {
 
   const updates = new Observable((observer) => {
     observers.add(observer);
-
     return () => {
       observers.delete(observer);
     };
