@@ -2,7 +2,7 @@
 
 import { createThunkMutator } from 'reductress';
 
-import { createStore } from '..';
+import { createStore, type Store } from '..';
 
 const createTestStore = () => {
   const initialState = {
@@ -73,7 +73,7 @@ it('sends update after setState', () => {
   expect(subscriber).toHaveBeenCalledTimes(3);
 });
 
-it('stops providing after unsubscription', () => {
+it('stops sending updates after unsubscription', () => {
   const { store } = createTestStore();
 
   const subscriber = jest.fn();
@@ -89,4 +89,59 @@ it('stops providing after unsubscription', () => {
   store.setState(incrementMutation(store.getState()));
 
   expect(subscriber).toHaveBeenCalledTimes(1);
+});
+
+it('getIsLocked returns false before locking', () => {
+  const { store } = createTestStore();
+
+  expect(store.getIsLocked()).toBe(false);
+});
+
+it('getIsLocked returns true after locking', () => {
+  const { store } = createTestStore();
+
+  store.lock();
+
+  expect(store.getIsLocked()).toBe(true);
+});
+
+it('setState throws after locking', () => {
+  const { store } = createTestStore();
+
+  store.lock();
+
+  expect(() => {
+    store.setState({ count: 1 });
+  }).toThrow();
+});
+
+it('lock throws after locking', () => {
+  const { store } = createTestStore();
+
+  store.lock();
+
+  expect(() => {
+    store.lock();
+  }).toThrow();
+});
+
+it('refining locks the store', () => {
+  const { store } = createTestStore();
+
+  store.refine((s) => s);
+
+  expect(store.getIsLocked()).toBe(true);
+});
+
+it('refining returns correct store', () => {
+  const { store } = createTestStore();
+
+  type RefinedState = {|
+    foo: 'bar',
+  |};
+
+  const refinedState: RefinedState = { foo: 'bar' };
+  const refinedStore: Store<RefinedState> = store.refine(() => refinedState);
+
+  expect(refinedStore.getState()).toBe(refinedState);
 });
