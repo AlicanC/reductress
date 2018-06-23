@@ -6,11 +6,12 @@ import createThunkMutator from './createThunkMutator';
 
 type Mutation<State> = (state: State) => State;
 type MutationCreator<State, Args> = (...args: Args) => Mutation<State>;
+// prettier-ignore
 type Mutate<State, MutationCreators: {}> = $ObjMap<
   MutationCreators,
   <Args>(MutationCreator<State, Args>) => (...args: Args) => void,
 > & {
-  $call: (mutation: Mutation<State>) => void,
+  [[call]]: (mutation: Mutation<State>) => void,
 };
 
 type MutationCreatorsObj<State> = $ReadOnly<{
