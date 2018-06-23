@@ -1,9 +1,13 @@
 // @flow
 
-import { createStore } from '..';
+import { createStore, type Store } from '..';
 
 const createTestStore = () => {
-  const initialState = {
+  type State = {
+    count: number,
+  };
+
+  const initialState: State = {
     count: 0,
   };
 
@@ -13,7 +17,7 @@ const createTestStore = () => {
     }),
   };
 
-  const store = createStore(initialState, mutationCreators);
+  const store: Store<State, typeof mutationCreators> = createStore(initialState, mutationCreators);
 
   return { store };
 };

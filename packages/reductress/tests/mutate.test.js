@@ -1,6 +1,6 @@
 // @flow
 
-import { createStore } from '..';
+import { createStore, type Store } from '..';
 
 test('mutate', () => {
   const mutationCreators = {
@@ -9,12 +9,15 @@ test('mutate', () => {
     }),
   };
 
-  const store = createStore(
-    {
-      count: 0,
-    },
-    mutationCreators,
-  );
+  type State = {
+    count: number,
+  };
+
+  const initialState: State = {
+    count: 0,
+  };
+
+  const store: Store<State, typeof mutationCreators> = createStore(initialState, mutationCreators);
 
   expect(store.getState()).toEqual({ count: 0 });
 
@@ -61,7 +64,7 @@ test('send update', () => {
 
   const subscriber = jest.fn();
 
-  store.subscribe(subscriber);
+  store.updates.subscribe(subscriber);
   expect(subscriber).toHaveBeenCalledTimes(0);
 
   store.mutate.increment();
