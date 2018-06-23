@@ -10,7 +10,7 @@ export type Store<State> = $ReadOnly<{
   updates: Updates<State>,
 }>;
 
-export default function createStore<State>(initialState: State): Store<State> {
+export default function createStore<State>(initialState: State): $Exact<Store<State>> {
   // State observation
   const observers: Set<Observer<State>> = new Set();
 
